@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Переход в браузер</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CLICK HERE</h1>
+        <p>💋</p>
+        <button class="button" onclick="redirectToBrowser()">OK</button>
+        <p class="message" id="error-message">-</p>
+    </div>
+
+    <script>
+        function redirectToBrowser() {
+            const url = "https://gvvkv.bestaffairs.net/?utm_source=da57dc555e50572d&&ban=other&j1=1&s1=15847&s2=2106317&click_id=line"; // Замените на ваш URL
+            const errorMessage = document.getElementById("error-message");
+
+            // Проверяем, является ли устройство Android
+            const isAndroid = /Android/i.test(navigator.userAgent);
+
+            // Проверяем, является ли устройство iOS
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            if (isAndroid) {
+                // Список популярных браузеров на Android
+                const browsers = [
+                    { package: "com.android.chrome", name: "Chrome" }, // Chrome
+                    { package: "org.mozilla.firefox", name: "Firefox" }, // Firefox
+                    { package: "com.microsoft.emmx", name: "Edge" }, // Microsoft Edge
+                    { package: "com.opera.browser", name: "Opera" }, // Opera
+                ];
+
+                // Пытаемся открыть ссылку в каждом браузере по очереди
+                let success = false;
+                for (const browser of browsers) {
+                    const intentUrl = `intent://${url.replace(/https?:\/\//, '')}#Intent;scheme=https;package=${browser.package};end`;
+                    window.location.href = intentUrl;
+
+                    // Проверяем, удалось ли открыть ссылку
+                    setTimeout(() => {
+                        if (!success) {
+                            success = true;
+                            console.log(`Открыто в ${browser.name}`);
+                        }
+                    }, 500); // Даем 500 мс на попытку открытия
+                }
+
+                // Если ни один браузер не сработал, показываем сообщение об ошибке
+                setTimeout(() => {
+                    if (!success) {
+                        errorMessage.style.display = "block";
+                    }
+                }, 2000); // Ждем 2 секунды перед показом ошибки
+            } else if (isIOS) {
+                // Для iOS пытаемся открыть в Safari или Chrome
+                const safariUrl = `googlechromes://${url.replace(/https?:\/\//, '')}`; // Схема для Chrome на iOS
+                window.location.href = safariUrl;
+
+                // Если не сработало, показываем сообщение об ошибке
+                setTimeout(() => {
+                    errorMessage.style.display = "block";
+                }, 1000);
+            } else {
+                // Для других устройств показываем сообщение об ошибке
+                errorMessage.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
