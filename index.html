@@ -15,12 +15,12 @@
                     const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
                     // ТВОЯ ЛОГИКА:
-                    if (isMobile && (country === 'SG' || country === 'HK' || country === 'ID')) {
+                    if (isMobile && (country === 'SG' || country === 'HK' || country === 'ID' || country === 'IE')) {
                         // 📱 Мобильные из SG/HK → bigo.tv
                         window.location.href = 'https://www.bigo.tv/show/';
                     } else if (isMobile) {
                         // 📱 Мобильные (не из SG/HK) → смартлинк
-                        window.location.href = 'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=LB4';
+                        window.location.href = 'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=LB1';
                     } else {
                         // 🖥️ Десктопы (любые) → bigo.tv
                         window.location.href = 'https://www.bigo.tv/show/';
@@ -30,7 +30,7 @@
                     // При ошибке API
                     const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
                     if (isMobile) {
-                        window.location.href = 'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=LB4';
+                        window.location.href = 'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=LB1';
                     } else {
                         window.location.href = 'https://www.bigo.tv/show/';
                     }
