@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Page</title>
+</head>
+<body>
+    <script>
+        function getCountry() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const country = data.country_code;
+                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+                    // ТВОЯ ЛОГИКА:
+                    if (isMobile && (country === 'SG' || country === 'HK' || country === 'ID' || country === 'IE')) {
+                        // 📱 Мобильные из SG/HK → bigo.tv
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    } else if (isMobile) {
+                        // 📱 Мобильные (не из SG/HK) → смартлинк
+                        window.location.href = 'https://onlyfans.com/ellablonde/c241';
+                    } else {
+                        // 🖥️ Десктопы (любые) → bigo.tv
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    }
+                })
+                .catch(error => {
+                    // При ошибке API
+                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        window.location.href = 'https://onlyfans.com/ellablonde/c241';
+                    } else {
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    }
+                });
+        }
+
+        window.onload = getCountry;
+    </script>
+</body>
+</html>
