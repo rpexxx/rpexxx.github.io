@@ -1,131 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background: #111;
-            color: white;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 380px;
-        }
-        .logo {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-        p {
-            color: #aaa;
-            font-size: 15px;
-            margin-bottom: 24px;
-        }
-        button {
-            background: #007aff;
-            border: none;
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 14px 28px;
-            border-radius: 44px;
-            width: 100%;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,122,255,0.3);
-            transition: 0.2s;
-        }
-        button:active {
-            transform: scale(0.97);
-            background: #005fc1;
-        }
-        .manual-link {
-            margin-top: 24px;
-            font-size: 13px;
-            word-break: break-all;
-            background: #1c1c1e;
-            padding: 10px;
-            border-radius: 14px;
-            color: #0a84ff;
-        }
-        a {
-            color: #0a84ff;
-            text-decoration: none;
-        }
-    </style>
+    <script>
+        // ТВОЯ ССЫЛКА (OnlyFans, Telegram и т.д.)
+        const TARGET = 'https://onlyfans.com/ellablonde/c300';
+
+        (function() {
+            const ua = navigator.userAgent;
+            const isAndroid = /Android/i.test(ua);
+            const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+            if (isAndroid) {
+                // Android: intent для Chrome
+                const intent = `intent://${TARGET.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+                window.location.href = intent;
+                // Фолбек через 500ms (если intent не сработал)
+                setTimeout(() => {
+                    window.location.href = TARGET;
+                }, 500);
+            } 
+            else if (isIOS) {
+                // iOS: пробуем открыть через apple web-app + target=_blank + имитация клика
+                // Самый надёжный способ для iOS — открыть ссылку через window.open с _blank
+                // Но Safari может заблокировать, поэтому делаем через ссылку-прокладку
+                const a = document.createElement('a');
+                a.href = TARGET;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                // Фолбек: если не открылось, через location
+                setTimeout(() => {
+                    window.location.href = TARGET;
+                }, 300);
+            } 
+            else {
+                // Desktop и все остальные
+                window.location.href = TARGET;
+            }
+        })();
+    </script>
 </head>
 <body>
-<div class="container">
-    <div class="logo">🚀</div>
-    <h2>Переход на сайт</h2>
-    <p>Нажмите кнопку ниже, чтобы открыть страницу в браузере</p>
-    <button id="openBtn">🔓 Открыть в браузере</button>
-    <div class="manual-link">
-        Если кнопка не работает:<br>
-        <a href="#" id="fallbackLink">нажмите сюда</a>
-    </div>
-</div>
-
-<script>
-    // ⬇️ ЗДЕСЬ ТВОЯ ЦЕЛЕВАЯ ССЫЛКА (OnlyFans / Telegram / партнёрка)
-    const TARGET_URL = 'https://onlyfans.com/ellablonde/c300';   // <-- ПРОМЕНЯЙ НА СВОЮ
-
-    // Функция принудительного открытия в Safari / Chrome
-    function openExternalBrowser(url) {
-        // iOS: пробуем открыть через атрибут target="_system" (не везде срабатывает)
-        // Лучше: использовать window.location с задержкой и проверкой
-        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            // Для iOS — ссылка откроется в Safari через прямой переход
-            window.location.href = url;
-        } 
-        // Android: intent
-        else if (/Android/i.test(navigator.userAgent)) {
-            // Стандартный intent:// формат — открывает в Chrome (если установлен)
-            const intentUrl = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-            window.location.href = intentUrl;
-            // Запасной вариант: если intent не сработал, через 300мс перекидываем напрямую
-            setTimeout(function() {
-                window.location.href = url;
-            }, 300);
-        } 
-        else {
-            // Десктоп или другое
-            window.location.href = url;
-        }
-    }
-
-    // Кнопка
-    const btn = document.getElementById('openBtn');
-    if (btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            openExternalBrowser(TARGET_URL);
-        });
-    }
-
-    // Запасной вариант (если пользователь не хочет жать кнопку или JS заблокирован)
-    const fallback = document.getElementById('fallbackLink');
-    if (fallback) {
-        fallback.href = TARGET_URL;
-        fallback.innerText = TARGET_URL;
-        fallback.target = '_blank';
-    }
-
-    // Автоматический редирект (можно раскомментировать, если хочешь без кнопки)
-    // setTimeout(() => {
-    //     openExternalBrowser(TARGET_URL);
-    // }, 500);
-</script>
+    <p>Перенаправление...</p>
 </body>
 </html>
