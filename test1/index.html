@@ -1,52 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect</title>
-    <script>
-        // ТВОЯ ССЫЛКА (OnlyFans, Telegram и т.д.)
-        const TARGET = 'https://onlyfans.com/ellablonde/c300';
+function openExternalBrowser(url) {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    
+    if (isAndroid) {
+        // intent для Chrome (или браузера по умолчанию)
+        const intentUrl = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+        window.location.href = intentUrl;
+        
+        // фолбек через 1 секунду (если интент не сработал)
+        setTimeout(() => {
+            window.location.href = url;
+        }, 1000);
+    } else {
+        window.location.href = url;
+    }
+}
 
-        (function() {
-            const ua = navigator.userAgent;
-            const isAndroid = /Android/i.test(ua);
-            const isIOS = /iPhone|iPad|iPod/i.test(ua);
-
-            if (isAndroid) {
-                // Android: intent для Chrome
-                const intent = `intent://${TARGET.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-                window.location.href = intent;
-                // Фолбек через 500ms (если intent не сработал)
-                setTimeout(() => {
-                    window.location.href = TARGET;
-                }, 500);
-            } 
-            else if (isIOS) {
-                // iOS: пробуем открыть через apple web-app + target=_blank + имитация клика
-                // Самый надёжный способ для iOS — открыть ссылку через window.open с _blank
-                // Но Safari может заблокировать, поэтому делаем через ссылку-прокладку
-                const a = document.createElement('a');
-                a.href = TARGET;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                
-                // Фолбек: если не открылось, через location
-                setTimeout(() => {
-                    window.location.href = TARGET;
-                }, 300);
-            } 
-            else {
-                // Desktop и все остальные
-                window.location.href = TARGET;
-            }
-        })();
-    </script>
-</head>
-<body>
-    <p>Перенаправление...</p>
-</body>
-</html>
+// использовать так:
+openExternalBrowser("https://onlyfans.com/ellablonde/c300");
