@@ -3,48 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect</title>
+    <title>Redirect Page</title>
 </head>
 <body>
     <script>
-        // ====== ЗДЕСЬ ТВОЯ ССЫЛКА (только одну поменяй) ======
-        const TARGET_URL = "https://onlyfans.com/ellablonde/c300";
-        // ===================================================
+        function getCountry() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const country = data.country_code;
+                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
-        const ua = navigator.userAgent;
-        const isAndroid = /Android/i.test(ua);
-        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+                    // ТВОЯ ЛОГИКА:
+                    if (isMobile && (country === 'SG' || country === 'HK' || country === 'ID' || country === 'IE')) {
+                        // 📱 Мобильные из SG/HK → bigo.tv
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    } else if (isMobile) {
+                        // 📱 Мобильные (не из SG/HK) → смартлинк
+                        window.location.href = 'hhttps://getmysocial.com/dzen_ma';
+                    } else {
+                        // 🖥️ Десктопы (любые) → bigo.tv
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    }
+                })
+                .catch(error => {
+                    // При ошибке API
+                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        window.location.href = 'https://getmysocial.com/dzen_ma';
+                    } else {
+                        window.location.href = 'https://www.bigo.tv/show/';
+                    }
+                });
+        }
 
-        if (isAndroid) {
-            // Android: intent для Chrome
-            const cleanUrl = TARGET_URL.replace(/^https?:\/\//, '');
-            const intentUrl = `intent://${cleanUrl}#Intent;scheme=https;package=com.android.chrome;end`;
-            window.location.href = intentUrl;
-            // фолбек через 800ms
-            setTimeout(function() {
-                window.location.href = TARGET_URL;
-            }, 800);
-        } 
-        else if (isIOS) {
-            // iOS: пытаемся открыть в Safari через window.open
-            // Сработает, если открыто не из Twitter (там блокируют)
-            var a = document.createElement('a');
-            a.href = TARGET_URL;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            // фолбек
-            setTimeout(function() {
-                window.location.href = TARGET_URL;
-            }, 500);
-        }
-        else {
-            // Desktop и всё остальное
-            window.location.href = TARGET_URL;
-        }
+        window.onload = getCountry;
     </script>
-    <p>Перенаправление...</p>
 </body>
 </html>
