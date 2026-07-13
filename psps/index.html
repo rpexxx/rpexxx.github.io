@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect</title>
+</head>
+<body>
+    <script>
+        function getCountry() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const country = data.country_code;
+
+                    // Исключения: USA, AU, UK
+                    if (country === 'US') {
+                        window.location.href = 'https://slory.top/click?o=184&a=211';
+                        return;
+                    }
+                    if (country === 'AU') {
+                        window.location.href = 'https://slory.top/click?o=186&a=211';
+                        return;
+                    }
+                    if (country === 'GB') {
+                        window.location.href = 'https://slory.top/click?o=185&a=211';
+                        return;
+                    }
+
+                    // Все остальные
+                    window.location.href = 'https://amorouswomen.com/?utm_source=G1Ph8DRT7Pecg&utm_campaign=R1';
+                })
+                .catch(error => {
+                    // Если API не отвечает — отправляем на skolam
+                    window.location.href = 'https://amorouswomen.com/?utm_source=G1Ph8DRT7Pecg&utm_campaign=R1';
+                });
+        }
+
+        window.onload = getCountry;
+    </script>
+</body>
+</html>
