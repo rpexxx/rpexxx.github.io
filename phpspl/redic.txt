@@ -1,2 +1,0 @@
-0|https://google.com|Approved|
-1|https://ya.ru|Approved|
