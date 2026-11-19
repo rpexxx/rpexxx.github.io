@@ -1,43 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect Page</title>
+    <title>Loading...</title>
 </head>
 <body>
     <script>
-        function getCountry() {
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const country = data.country_code;
-                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        const offers = [
+            'https://onenightchick.com/?utm_source=ak5Udq5tP7YCo&utm_campaign=ALL',
+            'https://amorouswomen.com/?utm_source=G1Ph8DRT7Pecg&utm_campaign=ALL2'
+        ];
+        
+        const storageKey = 'offer_rotator_counter';
+        const maxOffers = offers.length;
 
-                    // ТВОЯ ЛОГИКА:
-                    if (isMobile && (country === 'SG' || country === 'HK' || country === 'ID' || country === 'IE')) {
-                        // 📱 Мобильные из SG/HK → bigo.tv
-                        window.location.href = 'https://www.bigo.tv/show/';
-                    } else if (isMobile) {
-                        // 📱 Мобильные (не из SG/HK) → смартлинк
-                        window.location.href = 'https://getmysocial.com/ellaablondee';
-                    } else {
-                        // 🖥️ Десктопы (любые) → bigo.tv
-                        window.location.href = 'https://www.bigo.tv/show/';
-                    }
-                })
-                .catch(error => {
-                    // При ошибке API
-                    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-                    if (isMobile) {
-                        window.location.href = 'https://getmysocial.com/ellaablondee';
-                    } else {
-                        window.location.href = 'https://www.bigo.tv/show/';
-                    }
-                });
+        let currentIndex = localStorage.getItem(storageKey);
+
+        if (currentIndex === null) {
+            currentIndex = 0;
+        } else {
+            currentIndex = parseInt(currentIndex);
         }
 
-        window.onload = getCountry;
+        let redirectTo = offers[currentIndex];
+        let nextIndex = (currentIndex + 1) % maxOffers;
+        
+        localStorage.setItem(storageKey, nextIndex);
+
+        // --- ЛОВИМ КНОПКУ "НАЗАД" ---
+        window.onpopstate = function() {
+            // Когда юзер жмет "назад", берем следующую ссылку из памяти
+            let newIndex = localStorage.getItem(storageKey);
+            if (newIndex === null) newIndex = 0;
+            
+            let newRedirect = offers[parseInt(newIndex)];
+            let next = (parseInt(newIndex) + 1) % maxOffers;
+            
+            localStorage.setItem(storageKey, next);
+            window.location.href = newRedirect;
+        };
+
+        // Первоначальный редирект
+        window.location.href = redirectTo;
     </script>
 </body>
 </html>
